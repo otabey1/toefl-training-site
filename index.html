@@ -1,14 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOEFL Training Site</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOEFL Training - Day 1</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #222;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .timer {
+      font-size: 1.2rem;
+    }
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-top: 10px;
+      font-size: 1rem;
+      padding: 10px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to Your TOEFL Training Site</h1>
-  <p>This is Day 1 - Let's practice Writing, Reading, Speaking, and Listening.</p>
-  <script src="script.js"></script>
+  <header>
+    <h1>TOEFL Training - Day 1</h1>
+    <div class="timer" id="timer">Time Left: 60:00</div>
+  </header>
+
+  <div class="container active" id="writing">
+    <h2>✍ Writing</h2>
+    <p><strong>Question:</strong> Do you prefer studying alone or in a group? Why?</p>
+    <textarea placeholder="Write your answer here..."></textarea>
+    <button onclick="showSection('reading')">Next: Reading</button>
+  </div>
+
+  <div class="container" id="reading">
+    <h2>📖 Reading</h2>
+    <p><strong>Passage:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p><strong>Q1:</strong> What is the main idea?</p>
+    <ul>
+      <li><input type="radio" name="q1" /> Option A</li>
+      <li><input type="radio" name="q1" /> Option B</li>
+      <li><input type="radio" name="q1" /> Option C</li>
+      <li><input type="radio" name="q1" /> Option D</li>
+    </ul>
+    <button onclick="showSection('speaking')">Next: Speaking</button>
+  </div>
+
+  <div class="container" id="speaking">
+    <h2>🗣 Speaking</h2>
+    <p><strong>Question:</strong> Do you prefer morning or evening study sessions?</p>
+    <button onclick="startSpeaking()">🎤 Start Recording</button>
+    <p id="speak-status"></p>
+    <button onclick="showSection('listening')">Next: Listening</button>
+  </div>
+
+  <div class="container" id="listening">
+    <h2>🎧 Listening</h2>
+    <audio controls>
+      <source src="sample-audio.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+    <p><strong>Q:</strong> What was the speaker's main point?</p>
+    <ul>
+      <li><input type="radio" name="lq1" /> A</li>
+      <li><input type="radio" name="lq1" /> B</li>
+      <li><input type="radio" name="lq1" /> C</li>
+      <li><input type="radio" name="lq1" /> D</li>
+    </ul>
+    <button onclick="alert('Test Complete! Scoring coming soon.')">Finish</button>
+  </div>
+
+  <script>
+    let timeLeft = 60 * 60;
+    const timer = document.getElementById("timer");
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+      const seconds = (timeLeft % 60).toString().padStart(2, '0');
+      timer.textContent = `Time Left: ${minutes}:${seconds}`;
+      timeLeft--;
+      if (timeLeft < 0) clearInterval(timerInterval);
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    function showSection(id) {
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function startSpeaking() {
+      document.getElementById("speak-status").innerText = "🎙 Recording (simulated)...";
+      setTimeout(() => {
+        document.getElementById("speak-status").innerText = "✅ Recording complete.";
+      }, 60000);
+    }
+  </script>
 </body>
 </html>
